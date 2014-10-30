@@ -1,16 +1,16 @@
 $(function() {
     // This MobileServiceClient has been configured to communicate with your local
     // test project for debugging purposes.
-    var client = new WindowsAzure.MobileServiceClient(
-        "http://localhost:59984"
-    );
-
-    // This MobileServiceClient has been configured to communicate with your Mobile Service's url
-    // and application key. You're all set to start working with your Mobile Service!
     //var client = new WindowsAzure.MobileServiceClient(
-    //    "https://testingred.azure-mobile.net/",
-    //    "eWNRAfDKzmZaJWBuncCcwMjLePXcDs75"
+    //    "http://localhost:59984"
     //);
+
+     //This MobileServiceClient has been configured to communicate with your Mobile Service's url
+     //and application key. You're all set to start working with your Mobile Service!
+    var client = new WindowsAzure.MobileServiceClient(
+        "https://testingred.azure-mobile.net/",
+        "eWNRAfDKzmZaJWBuncCcwMjLePXcDs75"
+    );
 
     var todoItemTable = client.getTable('todoitem');
 
@@ -31,6 +31,24 @@ $(function() {
             $('#todo-items').empty().append(listItems).toggle(listItems.length > 0);
             $('#summary').html('<strong>' + todoItems.length + '</strong> item(s)');
         }, handleError);
+
+
+    }
+
+    function callManga() {
+        client.invokeApi("testing/GetMangaImages", {
+            body: null,
+            method: "get",
+            parameters: {
+                manganame: "onepiece",
+                schapter: 700
+            }
+        }).done(function (results) {
+            var message = results.result.length + " all image";
+            alert(message);
+        }, function (error) {
+            alert(error.message);
+        });
     }
 
     function handleError(error) {
@@ -71,4 +89,5 @@ $(function() {
 
     // On initial load, start by fetching the current data
     refreshTodoItems();
+    callManga();
 });
