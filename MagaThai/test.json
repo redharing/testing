@@ -1,0 +1,34 @@
+{
+    "status": "ok",
+    "count": 3,
+    "categories": [
+        {
+            "id": 5,
+            "slug": "bathroom",
+            "title": "Bathroom",
+            "description": "",
+            "parent": 0,
+            "post_count": 1,
+            "app_field": "true"
+        },
+        {
+            "id": 4,
+            "slug": "bedroom",
+            "title": "Bedroom",
+            "description": "",
+            "parent": 0,
+            "post_count": 5,
+            "app_field": "true"
+        },
+        {
+            "id": 6,
+            "slug": "kitchen",
+            "title": "Kitchen",
+            "description": "",
+            "parent": 0,
+            "post_count": 1,
+            "app_field": "true"
+        }
+    ]
+
+}

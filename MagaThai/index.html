@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>MagaThai</title>
+
+    <!-- MagaThai references -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.3.2.min.css" />
+
+
+    <script src="cordova.js"></script>
+    <!--<script src="cordova_plugins.js"></script>-->
+    <script src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/MobileServices.Web-1.2.2.min.js"></script>
+    <script src="js/jquery.mobile-1.3.2.min.js"></script>
+    <script src="js/jquery.mixitup.js"></script>
+    <script type="text/javascript" src="js/fastclick.js"></script>
+    <script type="text/javascript" src="js/clientjs.js"></script>
+    <script src="js/getjson.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- JS & CSS FOR SLIDER-->
+    <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="owl-carousel/owl.theme.css">
+    <script src="owl-carousel/owl.carousel.js"></script>
+
+    <!-- Plugin JS -->
+    <script type="text/javascript" src="js/SocialSharing.js"></script>
+
+    <!--<script src="js/Wallpaper.js"></script>-->
+
+    <script>
+        /*Below Code this for stop pagetransion and add fask click*/
+        window.addEventListener('load', function () {
+            FastClick.attach(document.body);
+            //$.mobile.fixedToolbars.setTouchToggleEnabled(false);
+            $.mobile.defaultPageTransition = 'none';
+        }, false);
+
+        function checkConnection() {
+            window.plugins.toast.show("No Internet Connection Found...!!!", 'short', 'center', function (a) { console.log('toast success: ' + a) }, function (b) { });
+        } /* CheckConnection is use for check intenet Connection**/
+
+        /*Below Both Function will use for connect slider and menu for active class*/
+        $(document).ready(function () {
+            $(window).load(function () {
+                $("#owl-example .filter").bind("click", function (e) {
+                    var current = $(this).attr("data-filter");
+                    $('li button[data-filter="' + current + '"]').addClass("active");
+                }); //owl-example .filter end
+                $(".menucategorylist .filter").bind("click", function (e) {
+                    var current = $(this).attr("data-filter");
+                    $('.owl-item button[data-filter="' + current + '"]').addClass("active");
+                }); //menucategorylist .filter end
+                //checkConnection();
+            }); // window load end
+        }); //doc ready end
+    </script>
+
+</head>
+<body>
+    <!-- Cordova reference, this is added to your app when it's built. -->
+
+
+
+    <div data-role="page" id="home" class="home">
+        <div data-role="header" class="header" data-position="fixed">
+            <div class="title global"><a href="#">Personalized Gallery </a></div>
+            <div class="menu"><a href="#homepanel" class="gn-icon-menu"><span class="icon-list"></span></a></div>
+            <div class="menuright"><a onclick="getgallerypic();"><span class="icon-heart"></span></a></div>
+        </div> <!-- Header End -->
+        <div data-role="panel" data-position-fixed="true" data-theme="a" id="homepanel">
+            <ul class="menucategorylist" data-role="listview" data-filter="true" data-filter-placeholder="Search Categories..." data-inset="true"></ul>
+        </div><!-- /panel -->
+        <div role="main" class="ui-content">
+
+            <div id="owl-example" class="owl-carousel">
+
+            </div> <!-- owl-example  END--->
+
+            <div id="Container" class="gallerydiv container">
+
+            </div>
+        </div> <!-- Content End-->
+
+    </div> <!-- Home Page End here -->
+
+
+    <div data-role="page" id="detail" class="detail">
+        <div data-role="header" class="header " data-position="fixed">
+            <div class="title global"><a href="#">Personalized Gallery </a> </div>
+            <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
+            <div class="menuright"><a href="#aboutus"><img src="images/aboutus.png"></a></div>
+        </div> <!-- Header End -->
+        <div role="main" class="ui-content">
+            <div class="detailimage">
+                <div class="bigimage">
+                    <div id="owl-big-demo" class="owl-carousel">
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Content End -->
+        <div data-role="footer" data-position="fixed" class="footer">
+            <div>
+                <ul>
+                    <li class="share" onclick="shareimage();"><a></a></li>
+                    <li class="wallpaper" onclick="setwallpaper();"><a></a></li>
+                    <li class="gallery" onclick="addtofavorite();"><a></a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div><!--Page End -->
+    <div data-role="page" id="detailgallery" class="detailgallery">
+        <div data-role="header" class="header " data-position="fixed">
+            <div class="title global"> <a href="#">Personalized Gallery </a> </div>
+            <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
+            <div class="menuright"><a href="#aboutus"><img src="images/aboutus.png"></a></div>
+
+
+        </div> <!-- Header End -->
+        <div role="main" class="ui-content">
+            <div class="detailimage">
+                <div class="bigimage">
+                    <div id="owl-big-demo-gallery" class="owl-carousel">
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Content End -->
+        <div data-role="footer" data-position="fixed" class="footer">
+            <div>
+                <ul>
+                    <li class="share" onclick="shareimage();"><a></a></li>
+                    <li class="wallpaper" onclick="setwallpaper();"><a> </a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+
+    </div><!--Page End -->
+
+
+    <div data-role="page" id="gallery" class="home">
+        <div data-role="header" class="header" data-position="fixed">
+            <div class="title mycollection"> My Collections</div>
+            <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
+        </div> <!-- Header End -->
+
+        <div role="main" class="ui-content">
+            <div class="mygallerydiv">
+
+            </div>
+        </div> <!-- Content End-->
+    </div> <!-- Gallery End here -->
+    <!-- About Us Page Start -->
+    <div data-role="page" id="aboutus" class="detail">
+        <div data-role="header" class="header " data-position="fixed">
+            <div class="title global"><a href="#">About Us</a> </div>
+            <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
+
+        </div> <!-- Header End -->
+        <div role="main" class="ui-content">
+            <!-- Change Auther Detail Here -->
+
+            <p>Personalized gallery is developed by excellentwebworld.This application is useful for small & mediam organization who want to show his/her porfolio using application.Also is use by individual purpose also who share images on playstore.</p>
+            <p>We are thanks full to all of you who download Personalized gallery.</p>
+            <p>we hope this application will useful for all of you</p>
+            <div class="contactdetail">
+                <div class="call"><a class="classname" href="tel:+919974974355">Call Us</a></div>
+                <div class="visitus"><a class="classname" onclick='window.open("http://excellentwebworld.com", "_blank","location=yes");'>Visit Us</a></div>
+                <div class="email"><a class="classname" onclick='sendemail("Enquiry");'>Drop Mail</a></div>
+            </div>
+        </div> <!-- Content End -->
+    </div><!--Page End -->
+
+    <div id="dvLoading"></div>
+
+</body>
+</html>
