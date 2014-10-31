@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mangaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mangaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="mangaModelStoreContainer">
           <EntitySet Name="Manga" EntityType="mangaModel.Store.Manga" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MangaChapter" EntityType="mangaModel.Store.MangaChapter" store:Type="Tables" Schema="dbo" />
@@ -18,7 +18,7 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsEnable" Type="bit" Nullable="false" />
-          <Property Name="NameDisplay" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameDisplay" Type="ntext" />
         </EntityType>
         <EntityType Name="MangaChapter">
           <Key>
@@ -27,8 +27,8 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="MangaId" Type="int" Nullable="false" />
           <Property Name="ChapterId" Type="int" Nullable="false" />
-          <Property Name="ChapterName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ChapterImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ChapterName" Type="ntext" />
+          <Property Name="ChapterImagePath" Type="ntext" />
           <Property Name="IsEnable" Type="bit" />
         </EntityType>
         <EntityType Name="MangaImage">
@@ -41,8 +41,7 @@
           <Property Name="Page" Type="int" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" Nullable="false" MaxLength="1000" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mangaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -55,32 +54,32 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
-          <Property Name="IsEnable" Type="Boolean" Nullable="false" />
-          <Property Name="NameDisplay" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ImagePath" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsEnable" Nullable="false" />
+          <Property Type="String" Name="NameDisplay" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MangaChapter">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="MangaId" Type="Int32" Nullable="false" />
-          <Property Name="ChapterId" Type="Int32" Nullable="false" />
-          <Property Name="ChapterName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="ChapterImagePath" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
-          <Property Name="IsEnable" Type="Boolean" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="MangaId" Nullable="false" />
+          <Property Type="Int32" Name="ChapterId" Nullable="false" />
+          <Property Type="String" Name="ChapterName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ChapterImagePath" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsEnable" />
         </EntityType>
         <EntityType Name="MangaImage">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="MangaId" Type="Int32" Nullable="false" />
-          <Property Name="Chapter" Type="Int32" Nullable="false" />
-          <Property Name="Page" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="MangaId" Nullable="false" />
+          <Property Type="Int32" Name="Chapter" Nullable="false" />
+          <Property Type="Int32" Name="Page" Nullable="false" />
+          <Property Type="String" Name="ImagePath" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -91,34 +90,34 @@
           <EntitySetMapping Name="Mangas">
             <EntityTypeMapping TypeName="mangaModel.Manga">
               <MappingFragment StoreEntitySet="Manga">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
                 <ScalarProperty Name="NameDisplay" ColumnName="NameDisplay" />
+                <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MangaChapters">
             <EntityTypeMapping TypeName="mangaModel.MangaChapter">
               <MappingFragment StoreEntitySet="MangaChapter">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="MangaId" ColumnName="MangaId" />
-                <ScalarProperty Name="ChapterId" ColumnName="ChapterId" />
-                <ScalarProperty Name="ChapterName" ColumnName="ChapterName" />
-                <ScalarProperty Name="ChapterImagePath" ColumnName="ChapterImagePath" />
                 <ScalarProperty Name="IsEnable" ColumnName="IsEnable" />
+                <ScalarProperty Name="ChapterImagePath" ColumnName="ChapterImagePath" />
+                <ScalarProperty Name="ChapterName" ColumnName="ChapterName" />
+                <ScalarProperty Name="ChapterId" ColumnName="ChapterId" />
+                <ScalarProperty Name="MangaId" ColumnName="MangaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MangaImages">
             <EntityTypeMapping TypeName="mangaModel.MangaImage">
               <MappingFragment StoreEntitySet="MangaImage">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="MangaId" ColumnName="MangaId" />
-                <ScalarProperty Name="Chapter" ColumnName="Chapter" />
-                <ScalarProperty Name="Page" ColumnName="Page" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="Chapter" ColumnName="Chapter" />
+                <ScalarProperty Name="MangaId" ColumnName="MangaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

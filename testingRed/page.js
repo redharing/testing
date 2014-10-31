@@ -32,22 +32,35 @@ $(function() {
             $('#summary').html('<strong>' + todoItems.length + '</strong> item(s)');
         }, handleError);
 
-
     }
 
     function callManga() {
-        client.invokeApi("testing/GetMangaImages", {
+        client.invokeApi("testing/GetMangaChapterByPage", {
             body: null,
             method: "get",
             parameters: {
-                manganame: "onepiece",
-                schapter: 700
+                manganame : "onepiece",
+                page: 5
             }
         }).done(function (results) {
             var message = results.result.length + " all image";
             alert(message);
         }, function (error) {
             alert(error.message);
+        });
+    }
+
+    function ajaxcallmanga() {
+        $.ajax({
+            type: "get",
+            beforeSend: function (request) {
+                request.setRequestHeader("X-ZUMO-APPLICATION", "eWNRAfDKzmZaJWBuncCcwMjLePXcDs75");
+            },
+            url: "https://testingred.azure-mobile.net/api/testing/GetMangaChapterByPage?manganame=onepiece&page=1",
+            processData: false,
+            success: function (msg) {
+                $("#results").append("The result =" + StringifyPretty(msg));
+            }
         });
     }
 
@@ -90,4 +103,5 @@ $(function() {
     // On initial load, start by fetching the current data
     refreshTodoItems();
     callManga();
+    ajaxcallmanga();
 });

@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="96352cb75992416bb442969fe337793f" Name="Diagram1">
-        <EntityTypeShape EntityType="mangaModel.Manga" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="mangaModel.MangaChapter" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="mangaModel.MangaImage" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mangaModel.Manga" Width="1.5" PointX="9.4453398517544116" PointY="7.264198753640148" />
+        <EntityTypeShape EntityType="mangaModel.MangaChapter" Width="1.5" PointX="0.21840137812234525" PointY="5.4841933722999849" />
+        <EntityTypeShape EntityType="mangaModel.MangaImage" Width="1.5" PointX="2.9891756563397012" PointY="9.3912915333133622" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

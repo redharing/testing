@@ -31,64 +31,97 @@ namespace testingRedService.Controllers
 
             int chapter = int.Parse(schapter);
             var result = (from manga in db.Mangas
-                         join image in db.MangaImages on manga.Id equals image.MangaId
+                          join image in db.MangaImages on manga.Id equals image.MangaId
                           where manga.Name.Equals(manganame, StringComparison.InvariantCultureIgnoreCase) && image.Chapter == chapter
-                         select image.ImagePath).ToArray();
+                          select image.ImagePath).ToArray();
 
             return result;
         }
 
-        // GET api/MangaByPage
-        public IQueryable<Manga> GetMangaByPage(int page)
+        // GET api/testing/testCount
+        public string GettestCount(string manganame, int page1)
         {
-            int mangaPerPage = 20;
-            var data = db.Mangas;
-            var count = data.Count();
-            if (page * mangaPerPage > count)
+            int chapterPerPage = 20;
+            var data = (from manga in db.Mangas
+                        join
+                        chapter in db.MangaChapters on manga.Id equals chapter.MangaId
+                        where manga.Name.Equals(manganame, StringComparison.InvariantCultureIgnoreCase)
+                        select chapter);
+
+            int count = data.Count();
+            if ((page1 * chapterPerPage) > count)
             {
-                if (count - mangaPerPage < 0)
+                if (count - chapterPerPage <= 0)
                 {
-                    return db.Mangas;
+                    return count.ToString() ;
                 }
                 else
                 {
-                    var result = db.Mangas.Skip(count - mangaPerPage).Take(mangaPerPage);
-                    return result;
+                    return (count - chapterPerPage ).ToString() + "k";
                 }
             }
             else
             {
-                var result = db.Mangas.Skip(page - 1 * mangaPerPage).Take(mangaPerPage);
-                return result;
+                return ((page1 - 1) * chapterPerPage).ToString() + "kk";
             }
         }
 
-        // GET api/angaChapterByPage
+        // GET api/GetMangaByPage
+        public IQueryable<Manga> GetMangaByPage(string spage)
+        {
+            if (!string.IsNullOrEmpty(spage))
+            {
+                int page = int.Parse(spage);
+                int mangaPerPage = 20;
+                var data = db.Mangas;
+                int count = data.Count();
+                if ((page * mangaPerPage) > count)
+                {
+                    if (count - mangaPerPage <= 0)
+                    {
+                        return db.Mangas;
+                    }
+                    else
+                    {
+                        var result = db.Mangas.OrderBy(m => m.Name).Skip(count - mangaPerPage).Take(mangaPerPage);
+                        return result;
+                    }
+                }
+                else
+                {
+                    var result = db.Mangas.OrderBy(m => m.Name).Skip((page - 1) * mangaPerPage).Take(mangaPerPage);
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        // GET api/testing/GetMangaChapterByPage
         public IQueryable<MangaChapter> GetMangaChapterByPage(string manganame, int page)
         {
             int chapterPerPage = 20;
-            var data = from manga in db.Mangas
+            var data = (from manga in db.Mangas
                        join
                        chapter in db.MangaChapters on manga.Id equals chapter.MangaId
-                       where manga.Name.Equals(manganame,StringComparison.InvariantCultureIgnoreCase)
-                       select chapter;
+                       where manga.Name.Equals(manganame, StringComparison.InvariantCultureIgnoreCase)
+                       select chapter);
 
-            var count = data.Count();
-            if (page * chapterPerPage > count)
+            int count = data.Count();
+            if ((page * chapterPerPage) > count)
             {
-                if (count - chapterPerPage < 0)
+                if (count - chapterPerPage <= 0)
                 {
                     return data;
                 }
                 else
                 {
-                    var result = data.Skip(count - chapterPerPage).Take(chapterPerPage);
+                    var result = data.OrderByDescending(d => d.ChapterId).Skip(count - chapterPerPage).Take(chapterPerPage);
                     return result;
                 }
             }
             else
             {
-                var result = data.Skip(page - 1 * chapterPerPage).Take(chapterPerPage);
+                var result = data.OrderByDescending(d => d.ChapterId).Skip((page - 1) * chapterPerPage).Take(chapterPerPage);
                 return result;
             }
         }
@@ -102,6 +135,6 @@ namespace testingRedService.Controllers
             base.Dispose(disposing);
         }
 
-       
+
     }
 }
