@@ -264,7 +264,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\mobile-testingRed.pubxml" />
+    <None Include="Properties\PublishProfiles\testingRed - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\testingRed - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\testingRed - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\testingRed - Web Deploy.pubxml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

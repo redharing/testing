@@ -72,7 +72,7 @@ namespace testingRedService.Controllers
             if (!string.IsNullOrEmpty(spage))
             {
                 int page = int.Parse(spage);
-                int mangaPerPage = 20;
+                int mangaPerPage = 1000;
                 var data = db.Mangas;
                 int count = data.Count();
                 if ((page * mangaPerPage) > count)
@@ -96,10 +96,32 @@ namespace testingRedService.Controllers
             return null;
         }
 
+        //public string[] GetHotLastest()
+        //{
+        //    var result = (from p in db.MangaImages
+        //                 group p by p.MangaId
+        //                     into g
+        //                     select new
+        //                     {
+        //                         u = (from p2 in g select p2.Chapter).Max()
+        //                     }).ToArray();
+        //    var k = result;
+        //    return null;
+        //}
+
+        string[] hotmanga = { "onepiece", "naruto", "bleach", "toriko", "attack-on-titans" };
+        public IQueryable<Manga> GetHotManga()
+        {
+            var result = from p in db.Mangas
+                         where hotmanga.Contains(p.Name)
+                         select p;
+            return result;
+        }
+
         // GET api/testing/GetMangaChapterByPage
         public IQueryable<MangaChapter> GetMangaChapterByPage(string manganame, int page)
         {
-            int chapterPerPage = 20;
+            int chapterPerPage = 100;
             var data = (from manga in db.Mangas
                        join
                        chapter in db.MangaChapters on manga.Id equals chapter.MangaId

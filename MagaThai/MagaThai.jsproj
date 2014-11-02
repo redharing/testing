@@ -103,6 +103,7 @@
     <Content Include="css\icons-18-black.png" />
     <Content Include="css\isweting.css" />
     <Content Include="css\isweting.min.css" />
+    <Content Include="css\jquery.mobile-1.3.2.min.css" />
     <Content Include="css\jquery.mobile.icons.min.css" />
     <Content Include="css\jquery.mobile.structure-1.3.2.min.css" />
     <Content Include="css\jquery.mobile.structure-1.4.2.min.css" />

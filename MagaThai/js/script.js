@@ -54,7 +54,7 @@ var screenwidth=parseInt($(window).width());
 		currentimagehtml+='<div style="height:'+screenheight+'px !important;width:'+screenwidth+'px !important;vertical-align: middle; display: table-cell;" class="item"><img style="margin-top:0px;height:'+screenheight+'px !important;width:'+screenwidth+'px !important;" src="file:///sdcard/'+entries[i].fullPath+'"></div>';
 			//console.log(entries[i].name);
 		}
-		$(".mygallerydiv").html(html);
+		$("#mygalleryContent").html(html);
 
 		$.mobile.hidePageLoadingMsg(); // hide loading message
 		$.mobile.changePage("#gallery", {changeHash: false });
