@@ -1,4 +1,4 @@
-
+﻿
 var currentcategory = "";
 var currentimagepath = "";
 var currentcount = 0;
@@ -8,38 +8,39 @@ var mangaMenu;
 $(document).ready(function () {
 
     $.mobile.showPageLoadingMsg(); // show loading message
-    //getManga();
     gethotmanga();
-    //getthumb($(".owl-item .item.itemdiv0"), 'allcat', 0);
-    /*$(".owl-item .itemdiv0 h4").css("font-weight","900");
-    $(".menucategorylist .itemli0").css("background","#EA4C88");	*/
+    getManga();
+    //getthumb($(".owl-item .item.itemdiv0"), 'allcat', 0);*/
+    $(".owl-item .itemdiv0 h4").css("font-weight", "900");
+    $(".menucategorylist .itemli0").css("background", "#EA4C88");
 
 
 }); /*Device Ready End*/
 
 function getManga() {
-    mangaMenu = $("#owl-example").owlCarousel({
-        items: 10, //10 items above 1000px browser width
-        itemsDesktop: [1000, 7], //5 items between 1000px and 901px
-        itemsDesktopSmall: [900, 6], // betweem 900px and 601px
-        itemsTablet: [600, 5], //2 items between 600 and 0
-        itemsMobile: [400, 3], //2 items between 600 and 0
-        pagination: false,
-    });
+    //mangaMenu = $("#owl-example").owlCarousel({
+    //    items: 10, //10 items above 1000px browser width
+    //    itemsDesktop: [1000, 7], //5 items between 1000px and 901px
+    //    itemsDesktopSmall: [900, 6], // betweem 900px and 601px
+    //    itemsTablet: [600, 5], //2 items between 600 and 0
+    //    itemsMobile: [400, 3], //2 items between 600 and 0
+    //    pagination: false,
+    //});
+    CategorySliderSuccess(mangaData);
 
-    client.invokeApi("testing/MangaByPage", {
-        body: null,
-        method: "get",
-        parameters: {
-            spage: 1
-        }
-    }).done(function (results) {
-        //var message = results.result.length + " all image";
+    //client.invokeApi("testing/MangaByPage", {
+    //    body: null,
+    //    method: "get",
+    //    parameters: {
+    //        spage: 1
+    //    }
+    //}).done(function (results) {
+    //    //var message = results.result.length + " all image";
 
-        CategorySliderSuccess(results.result);
-    }, function (error) {
-        alert(error.message);
-    });
+    //    CategorySliderSuccess(results.result);
+    //}, function (error) {
+    //    alert(error.message);
+    //});
 
 }
 
@@ -230,24 +231,28 @@ function gethotmanga() {
         beforeSend: function (request) {
             request.setRequestHeader("X-ZUMO-APPLICATION", z);
         },
-        url: server + "/api/testing/GetHotManga",
+        url: server + "/api/testing/GetHotReleaseManga",
         processData: false,
         success: function (results) {
-            window.localStorage.setItem('currentslider', JSON.stringify(results));
+            window.localStorage.setItem('HotReleaseManga', JSON.stringify(results));
             var mcount = 0;
             var counter = 0;
             $.each(results, function (i, hotmanga) {
                 /*this condition will get feature image*/
-                htmlHotManga += '<div style="display: inline-block;" class="item mix ' + hotmanga.name + '"  onclick="getdetail(\'' + hotmanga.imagePath + '\',\'' + 'onepiece' + '\',' + counter + ',' + mcount + ')"><img src="' + hotmanga.imagePath + '"></div>';
+                //htmlHotManga += '<div style="display: inline-block;" class="item mix ' + hotmanga.mangaName + '"  onclick="getdetail(\'' + hotmanga.chapterImagePath + '\',\'' + 'onepiece' + '\',' + counter + ',' + mcount + ')"><img src="' + hotmanga.chapterImagePath + '"></div>';
+                var showDate = "1/1/1"; //hotmanga.modifyDate.replace("T", " เวลา ");
+                //var showDate = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear
+                htmlHotManga += '<li class="itemli' + (i + 1) + '" onclick="selectMangaChapter(\'' + hotmanga.mangaName + '\');" ><a href="#"><img src="' + hotmanga.chapterImagePath + '"><h2>' + hotmanga.chapterName + '</h2><p>ออกเมื่อ ' + showDate + '</p></a></a></li>';
                 counter++;
                 mcount++;
             });
 
-            $(".gallerydiv").html(htmlHotManga);
-            $(".gallerydiv").show();
+            $("#newReleaseManga").html(htmlHotManga);
+            $("#newReleaseManga").listview('refresh');
+            //$(".gallerydiv").show();
             $.mobile.hidePageLoadingMsg(); // hide loading message
             //setTimeout(function(){
-            $('#Container').mixItUp();
+            //$('#Container').mixItUp();
         },
         error: function (error) {
             alert(error.message);
@@ -255,156 +260,162 @@ function gethotmanga() {
     });
 }
 
-function getpage(manga, chapter) {
+//function getpage(manga, chapter) {
 
-    var html = "";
-    var response = "";
-    var array;
-    var slugmaster = "";
-    $(".gallerydiv").html('');
-    //clearappCache();   // for clear cache....
-    var ajaxurl = "";
-    if (categoryname == "allcat") {
-        ajaxurl = serverurl + '?json=get_posts';
-        slugmaster = "allcat";
-    }
-    else {
-        ajaxurl = serverurl + '?json=get_category_posts&slug=' + categoryname;
-    }
+//    var html = "";
+//    var response = "";
+//    var array;
+//    var slugmaster = "";
+//    $(".gallerydiv").html('');
+//    //clearappCache();   // for clear cache....
+//    var ajaxurl = "";
+//    if (categoryname == "allcat") {
+//        ajaxurl = serverurl + '?json=get_posts';
+//        slugmaster = "allcat";
+//    }
+//    else {
+//        ajaxurl = serverurl + '?json=get_category_posts&slug=' + categoryname;
+//    }
 
-    $.ajax({
-        type: "get",
-        beforeSend: function (request) {
-            request.setRequestHeader("X-ZUMO-APPLICATION", z);
-        },
-        url: server + "/api/testing/GetMangaImages?manganame=" + manga + "&schapter=" + chapter,
-        processData: false,
-        success: function (results) {
-            window.localStorage.setItem('currentslider', JSON.stringify(results));
-            var mcount = 0;
-            var counter = 0;
-            $.each(results, function (i, image) {
-                /*this condition will get feature image*/
-                html += '<div style="display: inline-block;" class="item mix ' + slugmaster + '"  onclick="getdetail(\'' + image + '\',\'' + 'onepiece' + '\',' + counter + ',' + mcount + ')"><img src="' + image + '"></div>';
-                counter++;
-                mcount++;
-            });
+//    $.ajax({
+//        type: "get",
+//        beforeSend: function (request) {
+//            request.setRequestHeader("X-ZUMO-APPLICATION", z);
+//        },
+//        url: server + "/api/testing/GetMangaImages?manganame=" + manga + "&schapter=" + chapter,
+//        processData: false,
+//        success: function (results) {
+//            window.localStorage.setItem('currentslider', JSON.stringify(results));
+//            var mcount = 0;
+//            var counter = 0;
+//            $.each(results, function (i, image) {
+//                /*this condition will get feature image*/
+//                html += '<div style="display: inline-block;" class="item mix ' + slugmaster + '"  onclick="getdetail(\'' + image + '\',\'' + 'onepiece' + '\',' + counter + ',' + mcount + ')"><img src="' + image + '"></div>';
+//                counter++;
+//                mcount++;
+//            });
 
-            $(".gallerydiv").html(html);
-            $(".gallerydiv").show();
-            $.mobile.hidePageLoadingMsg(); // hide loading message
-            //setTimeout(function(){
-            $('#Container').mixItUp();
-        },
-        error: function (error) {
-            alert(error.message);
-        }
-    });
+//            $(".gallerydiv").html(html);
+//            $(".gallerydiv").show();
+//            $.mobile.hidePageLoadingMsg(); // hide loading message
+//            //setTimeout(function(){
+//            $('#Container').mixItUp();
+//        },
+//        error: function (error) {
+//            alert(error.message);
+//        }
+//    });
 
-    //client.invokeApi("testing/GetMangaImages", {
-    //    body: null,
-    //    method: "get",
-    //    parameters: {
-    //        manganame: "onepiece",
-    //        schapter: 700
-    //    }
-    //}).done(function (results) {
-        
-    //    //	},1000);
-    //}, function (error) {
-        
-    //});
+//    //client.invokeApi("testing/GetMangaImages", {
+//    //    body: null,
+//    //    method: "get",
+//    //    parameters: {
+//    //        manganame: "onepiece",
+//    //        schapter: 700
+//    //    }
+//    //}).done(function (results) {
 
+//    //    //	},1000);
+//    //}, function (error) {
 
-    //$.ajax({ 
-    //			dataType: "jsonp",
-    // 	       type: 'POST',
-    // 		   cache:false,
-    //			url :ajaxurl,
-    //		//url :'test1.json',
-    //			success: function(data)
-    //			{
-
-    //				window.localStorage.setItem('currentslider', JSON.stringify(data));
-    //                var mcount=0;
-    //				$.each(data.posts,function(i,datamaster){
-    //					/*this condition will get feature image*/
-    //					$.each(datamaster.categories,function(j,subdata){
-    //						var counter=0;
-    //						if(categoryname=="allcat")
-    //						{
-
-    //								slugmaster=subdata.slug;
-    //						}
-    //						else
-    //						{
-    //								slugmaster=data.category.slug;
-    //						}
-    //						if(subdata.app_field!=null)
-    //						{
-    //						if(datamaster.thumbnail_images!=undefined)
-    //						{
-    //								html+='<div style="display: inline-block;" class="item mix '+slugmaster+'"  onclick="getdetail(\''+datamaster.thumbnail_images.full.url+'\',\''+categoryname+'\','+counter+','+mcount+')"><img src="'+datamaster.thumbnail_images.thumbnail.url+'"></div>';
-    //								counter++;
-    //                                mcount++;
-    //						}
-
-    //						response=unserialize(datamaster.custom_fields.dfiFeatured);
-    //						if(response!="")	
-    //						{
-    //							$.each(response,function(j,imgdata){
-    //								array=null;
-    //								array=imgdata.split(",");
-    //								html+='<div style="display: inline-block;" class="item mix '+slugmaster+'" onclick="getdetail(\''+serverurl+"wp-content/uploads"+array[0]+'\',\''+categoryname+'\','+counter+','+mcount+')"><img src="'+serverurl+"wp-content/uploads"+array[0]+'"></div>';
-    //								counter++;
-    //                                mcount++;
-    //							});
-    //						}// end if condition response
-
-    //							} // if condition of app_field
-    //						}); // for each for data.category
-
-    //						});
+//    //});
 
 
-    //				$(".gallerydiv").html(html);
-    //				$(".gallerydiv").show();
-    //				$.mobile.hidePageLoadingMsg(); // hide loading message
-    //				//setTimeout(function(){
-    //					$('#Container').mixItUp();
-    //     			//	},1000);
+//    //$.ajax({ 
+//    //			dataType: "jsonp",
+//    // 	       type: 'POST',
+//    // 		   cache:false,
+//    //			url :ajaxurl,
+//    //		//url :'test1.json',
+//    //			success: function(data)
+//    //			{
 
-    //			},error: function(){
-    //				$.mobile.hidePageLoadingMsg(); // hide loading message
-    //				checkConnection();
-    //			}
-    //		}); /* Json CAll End Here */// JavaScript Document
+//    //				window.localStorage.setItem('currentslider', JSON.stringify(data));
+//    //                var mcount=0;
+//    //				$.each(data.posts,function(i,datamaster){
+//    //					/*this condition will get feature image*/
+//    //					$.each(datamaster.categories,function(j,subdata){
+//    //						var counter=0;
+//    //						if(categoryname=="allcat")
+//    //						{
 
-}
+//    //								slugmaster=subdata.slug;
+//    //						}
+//    //						else
+//    //						{
+//    //								slugmaster=data.category.slug;
+//    //						}
+//    //						if(subdata.app_field!=null)
+//    //						{
+//    //						if(datamaster.thumbnail_images!=undefined)
+//    //						{
+//    //								html+='<div style="display: inline-block;" class="item mix '+slugmaster+'"  onclick="getdetail(\''+datamaster.thumbnail_images.full.url+'\',\''+categoryname+'\','+counter+','+mcount+')"><img src="'+datamaster.thumbnail_images.thumbnail.url+'"></div>';
+//    //								counter++;
+//    //                                mcount++;
+//    //						}
+
+//    //						response=unserialize(datamaster.custom_fields.dfiFeatured);
+//    //						if(response!="")	
+//    //						{
+//    //							$.each(response,function(j,imgdata){
+//    //								array=null;
+//    //								array=imgdata.split(",");
+//    //								html+='<div style="display: inline-block;" class="item mix '+slugmaster+'" onclick="getdetail(\''+serverurl+"wp-content/uploads"+array[0]+'\',\''+categoryname+'\','+counter+','+mcount+')"><img src="'+serverurl+"wp-content/uploads"+array[0]+'"></div>';
+//    //								counter++;
+//    //                                mcount++;
+//    //							});
+//    //						}// end if condition response
+
+//    //							} // if condition of app_field
+//    //						}); // for each for data.category
+
+//    //						});
+
+
+//    //				$(".gallerydiv").html(html);
+//    //				$(".gallerydiv").show();
+//    //				$.mobile.hidePageLoadingMsg(); // hide loading message
+//    //				//setTimeout(function(){
+//    //					$('#Container').mixItUp();
+//    //     			//	},1000);
+
+//    //			},error: function(){
+//    //				$.mobile.hidePageLoadingMsg(); // hide loading message
+//    //				checkConnection();
+//    //			}
+//    //		}); /* Json CAll End Here */// JavaScript Document
+
+//}
 
 function CategorySliderSuccess(mangas) {
 
-    var html = "";
+    //var html = "";
     var lihtml = "";
 
-    html += '<button class="filter" onclick="selectcat(\'hot\');" data-filter="hot">Hot Mangas</button>';
+    //html += '<button class="filter" onclick="selectcat(\'hot\');" data-filter="hot">Hot Mangas</button>';
     lihtml += '<li class="itemli0" onclick="selectcat(\'hot\');"><button class="filter" data-filter="hot" onclick="closemenu();">Hot Mangas</button></li>';
     $.each(mangas, function (i, manga) {
         if (manga != null) {
-            html += '<button class="filter" onClick="selectcat(\'' + manga.name + '\');" data-filter=".' + manga.name + '">' + manga.nameDisplay + '</button>';
+            //html += '<button class="filter" onClick="selectcat(\'' + manga.name + '\');" data-filter=".' + manga.name + '">' + manga.nameDisplay + '</button>';
 
-            lihtml += '<li class="itemli' + (i + 1) + '" onclick="selectcat(\'' + manga.name + '\');" ><button class="filter" data-filter=".' + manga.name + '" onclick="closemenu();">' + manga.nameDisplay + '</button></li>';
+            lihtml += '<li class="itemli' + (i + 1) + '" onclick="selectcat(\'' + manga.Name + '\');" ><button class="filter" data-filter=".' + manga.Name + '" onclick="closemenu();">' + manga.NameDisplay + '</button></li>';
         }
     });
 
-    $("#owl-example").html(html);
+    //$("#owl-example").html(html);
     $(".menucategorylist").html(lihtml);
     $.mobile.hidePageLoadingMsg(); // hide loading message
     //$('#Container').mixItUp();
 }
+
+function selectMangaChapter() {
+    $.mobile.changePage("#mangaChapterDetail", { changeHash: false });
+    TouchNSwipe.init();
+}
+
 function selectcat(current) {
+    $.mobile.showPageLoadingMsg();
     currentcategoryslug = current;
-    
     var chapterContent = "";
     $.ajax({
         type: "get",
@@ -417,10 +428,12 @@ function selectcat(current) {
             $.each(cs, function (i, c) {
                 chapterContent += '<li ><a href"#">' + c.chapterName + '</a></li>';
             });
-            $("#mangachapterContent").html(chapterContent);
+
 
             $.mobile.hidePageLoadingMsg(); // hide loading message
             $.mobile.changePage("#mangachapter", { changeHash: false });
+            $("#mangachapterContent").html(chapterContent);
+            $("#mangachapterContent").listview('refresh');
         }
     });
 

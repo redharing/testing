@@ -9,32 +9,36 @@
     <link rel="stylesheet" type="text/css" href="css/index.css" />
 
     <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" />
-
-   
-   
+    <link href="css/touchnswipe.min.css" rel="stylesheet">
+    <link href="css/fullscreen.css" rel="stylesheet" />
     <script src="cordova.js"></script>
-    <!--<script src="cordova_plugins.js"></script>-->
+    <script src="cordova_plugins.js"></script>
     <script src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/MobileServices.Web-1.2.2.min.js"></script>
+    <script src="js/jquery-1.10.0.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+    <script src="js/jquery.hammer.js" type="text/javascript"></script>
+    <script src="js/modernizr.js" type="text/javascript"></script>
+    <script src="js/TweenMax.js" type="text/javascript"></script>
+    <script src="js/TouchNSwipe.js" type="text/javascript"></script>
+    <!--<script src="js/MobileServices.Web-1.2.2.min.js"></script>-->
     <script src="js/jquery.mobile-1.3.2.min.js"></script>
-    <script src="js/jquery.mixitup.js"></script>
+    <!--<script src="js/jquery.mixitup.js"></script>-->
     <script type="text/javascript" src="js/fastclick.js"></script>
     <script type="text/javascript" src="js/clientjs.js"></script>
     <script src="js/getjson.js"></script>
     <script src="js/script.js"></script>
 
-    <!-- JS & CSS FOR SLIDER-->
-    <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="owl-carousel/owl.theme.css">
-    <script src="owl-carousel/owl.carousel.js"></script>
 
+    <!-- JS & CSS FOR SLIDER-->
+    <!--<link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="owl-carousel/owl.theme.css">
+    <script src="owl-carousel/owl.carousel.js"></script>-->
     <!-- Plugin JS -->
     <script type="text/javascript" src="js/SocialSharing.js"></script>
 
     <!--<script src="js/Wallpaper.js"></script>-->
-
+    <script src="js/data/manga.js"></script>
     <script>
         /*Below Code this for stop pagetransion and add fask click*/
         window.addEventListener('load', function () {
@@ -50,72 +54,76 @@
         /*Below Both Function will use for connect slider and menu for active class*/
         $(document).ready(function () {
             $(window).load(function () {
-                $("#owl-example .filter").bind("click", function (e) {
-                    var current = $(this).attr("data-filter");
-                    $('li button[data-filter="' + current + '"]').addClass("active");
-                }); //owl-example .filter end
+                //$("#owl-example .filter").bind("click", function (e) {
+                //    var current = $(this).attr("data-filter");
+                //    $('li button[data-filter="' + current + '"]').addClass("active");
+                //}); //owl-example .filter end
                 $(".menucategorylist .filter").bind("click", function (e) {
                     var current = $(this).attr("data-filter");
                     $('.owl-item button[data-filter="' + current + '"]').addClass("active");
                 }); //menucategorylist .filter end
                 //checkConnection();
+
             }); // window load end
         }); //doc ready end
+
+
     </script>
 
 </head>
 <body>
     <!-- Cordova reference, this is added to your app when it's built. -->
-
-
-
     <div data-role="page" id="home" class="">
         <div data-role="header" class="header" data-position="fixed">
-            <div class="title global"><a href="#">Personalized Gallery </a></div>
+            <div class="title global"><a href="#">การตูนออกใหม่ </a></div>
             <div class="menu"><a href="#homepanel" class="gn-icon-menu"><span class="icon-list"></span></a></div>
             <div class="menuright"><a onclick="getgallerypic();"><span class="icon-heart"></span></a></div>
         </div> <!-- Header End -->
         <div data-role="panel" data-position-fixed="true" data-theme="a" id="homepanel">
             <ul class="menucategorylist" data-role="listview" data-filter="true" data-filter-placeholder="Search Categories..." data-inset="true"></ul>
         </div><!-- /panel -->
-        <div role="main" class="ui-content">
 
-            <div id="owl-example" class="owl-carousel">
+        <div role="main" class="ui-content">
+            <ul id="newReleaseManga" data-role="listview" data-inset="true"></ul>
+            <!--  <div id="owl-example" class="owl-carousel">
 
             </div> <!-- owl-example  END--->
+            <!--<div id="Container" class="gallerydiv container">
 
-            <div id="Container" class="gallerydiv container">
-
-            </div>
-        </div> <!-- Content End-->
+            </div><!-- Content End-->
+        </div>
 
     </div> <!-- Home Page End here -->
 
-
-    <div data-role="page" id="detail" class="detail">
+    <div data-role="page" id="mangaChapterDetail" class="detail">
         <div data-role="header" class="header " data-position="fixed">
-            <div class="title global"><a href="#">Personalized Gallery </a> </div>
+            <div class="title global"><a href="#">อ่าน การ์ตูน</a> </div>
             <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
             <div class="menuright"><a href="#aboutus"><img src="images/aboutus.png"></a></div>
-        </div> <!-- Header End -->
+        </div>
         <div role="main" class="ui-content">
-            <div class="detailimage">
-                <div class="bigimage">
-                    <div id="owl-big-demo" class="owl-carousel">
-                    </div>
+            <div class='sliderHolder' id="mangaPageDetail">
+                <div id='fullscreen_slider' class='slider' data-elem='slider'>
+                    <div class='slides' id="mangaPages" data-elem='slides' data-options='preloaderUrl:images/loading.gif;'></div>
+                    <ul data-elem='items' id="mangaPage">
+                        <li><img src='http://1.bp.blogspot.com/-L10peiJVWkc/VD_bEeGnO9I/AAAAAAALVEw/BiK7RvynXXY/s1600/OnePiece764_Niceoppai_001.jpg' /></li>
+                        <li><img src='http://1.bp.blogspot.com/-QeWlTMBPDJo/VD_bF5F88uI/AAAAAAALVE8/zRY3ZkuMq68/s1600/OnePiece764_Niceoppai_002.jpg' /></li>
+                        <li><img src='http://2.bp.blogspot.com/-VNdWEFRXJao/VD_bEefJeqI/AAAAAAALVEs/nlbbvfQsFnE/s1600/OnePiece764_Niceoppai_003.png' /></li>
+                        <li><img src='http://4.bp.blogspot.com/-zUa0g5ZIzcQ/VD_bGBiU5qI/AAAAAAALVFE/m7l2A33MGwg/s1600/OnePiece764_Niceoppai_004.png' /></li>
+                        <li><img src='http://3.bp.blogspot.com/-K7z8LBClYCM/VD_bGFONA_I/AAAAAAALVFA/zbfoamrfqcA/s1600/OnePiece764_Niceoppai_005.png' /></li>
+                    </ul>
                 </div>
             </div>
-
-        </div> <!-- Content End -->
-        <div data-role="footer" data-position="fixed" class="footer">
+        </div>
+        <!--<div data-role="footer" data-position="fixed" class="footer">
             <div>
                 <ul>
                     <li class="share" onclick="shareimage();"><a></a></li>
                     <li class="wallpaper" onclick="setwallpaper();"><a></a></li>
                     <li class="gallery" onclick="addtofavorite();"><a></a></li>
                 </ul>
-            </div><!-- /navbar -->
-        </div><!-- /footer -->
+            </div>
+        </div>-->
     </div><!--Page End -->
 
     <div data-role="page" id="mangachapter" class="home">
@@ -124,15 +132,9 @@
             <div class="menu"><a href="#home"><span class="icon-arrow-left"></span></a></div>
         </div> <!-- Header End -->
 
-        
-        <ul id="mangachapterContent" data-role="listview" data-inset="true">
-            <li><a href="#">Acura</a></li>
-            <li><a href="#">Audi</a></li>
-            <li><a href="#">BMW</a></li>
-            <li><a href="#">Cadillac</a></li>
-            <li><a href="#">Ferrari</a></li>
-        </ul>
-       
+
+        <ul id="mangachapterContent" data-role="listview" data-inset="true"></ul>
+
     </div> <!-- Chapter Page End here -->
 
     <div data-role="page" id="detailgallery" class="detailgallery">
