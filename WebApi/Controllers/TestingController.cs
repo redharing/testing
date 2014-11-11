@@ -118,19 +118,10 @@ namespace testingRedService.Controllers
         //    return result;
         //}
 
-        public IQueryable<NewRelease> GetHotReleaseManga()
+        public IQueryable<NewReleaseManga> GetHotReleaseManga()
         {
-            var result = (from p in db.NewReleaseMangas
-                          join m in db.Mangas on p.MangaName equals m.Name
-                          where hotmanga.Contains(p.MangaName)
-                          select new NewRelease()
-                         {
-                             MangaName = p.MangaName,
-                             Chapter = p.Chapter,
-                             ChapterImagePath = m.ImagePath,
-                             ChapterName = p.ChapterName,
-                             ModifyDate = p.ModifyDate
-                         });
+            var result = from p in db.NewReleaseMangas
+                         select p; 
             
             return result;
         }
