@@ -110,10 +110,18 @@ namespace testingRedService.Controllers
         //}
 
         string[] hotmanga = { "onepiece", "naruto", "bleach", "toriko", "attack-on-titans" };
-        public IQueryable<Manga> GetHotManga()
+        //public IQueryable<Manga> GetHotManga()
+        //{
+        //    var result = from p in db.Mangas
+        //                 where hotmanga.Contains(p.Name)
+        //                 select p;
+        //    return result;
+        //}
+
+        public IQueryable<NewReleaseManga> GetHotReleaseManga()
         {
-            var result = from p in db.Mangas
-                         where hotmanga.Contains(p.Name)
+            var result = from p in db.NewReleaseMangas
+                         where hotmanga.Contains(p.MangaName)
                          select p;
             return result;
         }

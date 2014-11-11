@@ -28,5 +28,6 @@ namespace testingRedService.Models
         public DbSet<Manga> Mangas { get; set; }
         public DbSet<MangaChapter> MangaChapters { get; set; }
         public DbSet<MangaImage> MangaImages { get; set; }
+        public DbSet<NewReleaseManga> NewReleaseMangas { get; set; }
     }
 }
