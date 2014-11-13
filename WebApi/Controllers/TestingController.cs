@@ -33,6 +33,7 @@ namespace testingRedService.Controllers
             var result = (from manga in db.Mangas
                           join image in db.MangaImages on manga.Id equals image.MangaId
                           where manga.Name.Equals(manganame, StringComparison.InvariantCultureIgnoreCase) && image.Chapter == chapter
+                          orderby image.Page
                           select image.ImagePath).ToArray();
 
             return result;
